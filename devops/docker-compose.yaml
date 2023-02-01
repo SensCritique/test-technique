@@ -9,8 +9,14 @@ services:
       - api
     ports:
       - '80:80'
+      - '9001:9001'
     volumes:
       - ./passerelle/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+        #redis:
+        #image: redis
+        #container_name: redis
+        #ports:
+        #- "6379:6379"
   api:
     build:
       context: ./api/
