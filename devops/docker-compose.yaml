@@ -2,7 +2,7 @@ version: "2"
 services:
   passerelle:
     build:
-      context: .
+      context: ./passerelle/
       dockerfile: Dockerfile_haproxy
     command: "haproxy -d -f /usr/local/etc/haproxy/haproxy.cfg"
     depends_on:
@@ -10,18 +10,19 @@ services:
     ports:
       - '80:80'
     volumes:
-      - .:/home
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./passerelle/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
   api:
     build:
-      context: .
+      context: ./api/
       dockerfile: Dockerfile_python
     scale: 3
     volumes:
-      - .:/home
+      - ./data/books.json:/home/books.json
+      - ./api/src:/home/src/
   api_denver:
     build:
-      context: .
+      context: ./api_denver/
       dockerfile: Dockerfile_denver
     volumes:
-      - .:/home
+      - ./data/books.json:/home/books.json
+      - ./api_denver/src:/home/src/
