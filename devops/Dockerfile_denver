@@ -1,0 +1,9 @@
+FROM python:3.8-slim
+RUN apt update
+RUN pip install --upgrade pip
+RUN pip3 install flask
+WORKDIR /home
+COPY . .
+EXPOSE 5000
+HEALTHCHECK --interval=2s --timeout=10s --retries=10 CMD curl --fail-with-body http://localhost:5000/book || exit 1
+CMD ["flask","--app","src/denver","run", "--host=0.0.0.0"]

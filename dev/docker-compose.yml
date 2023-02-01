@@ -33,7 +33,7 @@ services:
   python:
     build:
       context: docker/python
-      dockerfile: Dockerfile
+      dockerfile: docker/python/Dockerfile
     env_file:
       - .env
     working_dir: /app
