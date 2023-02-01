@@ -12,7 +12,10 @@ Vous allez donc nous aider à corriger toutes les inepties du devOPS.
 
 ### Missions
 *Note : Merci d'expliquer vos choix et/ou investigation pour chaque "missions"* 
-- [ ] Debugger le projet et faites en sorte que l'API réponde sur la route `GET /books`
+- [x] Debugger le projet et faites en sorte que l'API réponde sur la route `GET /books`
+--> pas mal de docker logs pour voir pourquoi les containers de l'api ne démarraient pas. L'erreur Python était sur la ligne 7 où ça charge un json, un coup de python3 -m tool.json book.json pour me rendre que compte qu'en effet le json était pas bon.
+Ensuite pas mal de troubleshooting en me connectant au container passerelle et en installant curl pour vérifier la communication avec l'api, c'était ok. Du coup j'ai laissé tourné un docker logs -f dessus, mais je ne voyais pas mes calls depuis mon wsl.
+Et ensuite j'ai re-regardé le docker-compose et vu que le port mappé était pas le bon (le 80 sur le 5000 alors que la passerelle n'expose que le port 80).
 - [ ] Réorganiser le projet comme bon vous semble, profitez-en pour corriger les incohérences.
 - [ ] Intégrer un système de cache au projet (Redis par exemple)
       Note: Quand on cherche à récupérer un livre, on doit vérifier l'existence dans le cache avant de regarder dans le fichier books.json
