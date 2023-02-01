@@ -23,4 +23,5 @@ Et ensuite j'ai re-regardé le docker-compose et vu que le port mappé était pa
       Note2: Le fichier books.json fait office de "base de données" pour simplifier le test technique, vous n'êtes pas obligé d'y toucher.
 - [x] Faites en sorte que la page de statistiques d'HaProxy fonctionne
 --> ici j'ai fait plus simple en bindant le port 9001 sur lequel "écoute" la page /stats. J'ai tenté de modifier le port de binding dans la conf HAProxy, mais pour des raisons que j'ignore, cela avait tendance à faire bugger l'application.
-- [ ] L'api Denver (service api_denver dans le docker-compose.yaml) ne répond pas à 100% du temps, au bout d'un moment elle arrête de répondre, pourtant elle ne fait pas grand chose: elle affiche juste un livre aléatoire. Pourquoi bug t-elle ? trouvez la solution
+- [x] L'api Denver (service api_denver dans le docker-compose.yaml) ne répond pas à 100% du temps, au bout d'un moment elle arrête de répondre, pourtant elle ne fait pas grand chose: elle affiche juste un livre aléatoire. Pourquoi bug t-elle ? trouvez la solution
+--> le randrange(4) fait que parfois on se retrouvait avec un id == 0, aucun livre n'a pour id 0, du coup "return" un 404. Le randrange doit ressembler à randrange(1,5) pour pouvoir choisir tous les livres au hasard. La doc python et un petit shell Python pour m'assurer de mes dires m'a bien aidé.

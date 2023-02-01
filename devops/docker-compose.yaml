@@ -29,6 +29,8 @@ services:
     build:
       context: ./api_denver/
       dockerfile: Dockerfile_denver
+    ports:
+      - '5000:5000'
     volumes:
       - ./data/books.json:/home/books.json
       - ./api_denver/src:/home/src/
