@@ -12,16 +12,18 @@ services:
       - '9001:9001'
     volumes:
       - ./passerelle/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-        #redis:
-        #image: redis
-        #container_name: redis
-        #ports:
-        #- "6379:6379"
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+    - "6379:6379"
   api:
     build:
       context: ./api/
       dockerfile: Dockerfile_python
     scale: 3
+    env_file:
+      - ./api/src/.env
     volumes:
       - ./data/books.json:/home/books.json
       - ./api/src:/home/src/
