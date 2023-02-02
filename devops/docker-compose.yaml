@@ -1,8 +1,8 @@
 version: "2"
 services:
-  passerelle:
+  frontend:
     build:
-      context: ./passerelle/
+      context: ./frontend/
       dockerfile: Dockerfile_haproxy
     command: "haproxy -d -f /usr/local/etc/haproxy/haproxy.cfg"
     depends_on:
@@ -11,26 +11,29 @@ services:
       - '80:80'
       - '9001:9001'
     volumes:
-      - ./passerelle/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-  redis:
+      - ./frontend/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+  redis-cache:
     image: redis
     container_name: redis
     ports:
     - "6379:6379"
-  api:
+
+  backend:
     build:
-      context: ./api/
+      context: ./backend/
       dockerfile: Dockerfile_python
     scale: 3
     volumes:
       - ./data/books.json:/home/books.json
-      - ./api/src:/home/src/
-  api_denver:
+      - ./backend/src:/home/src/
+ 
+  backend-denver:
     build:
-      context: ./api_denver/
+      context: ./backend-denver/
       dockerfile: Dockerfile_denver
     ports:
       - '5000:5000'
     volumes:
       - ./data/books.json:/home/books.json
-      - ./api_denver/src:/home/src/
+      - ./backend-denver/src:/home/src/
