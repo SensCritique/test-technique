@@ -22,8 +22,6 @@ services:
       context: ./api/
       dockerfile: Dockerfile_python
     scale: 3
-    env_file:
-      - ./api/src/.env
     volumes:
       - ./data/books.json:/home/books.json
       - ./api/src:/home/src/

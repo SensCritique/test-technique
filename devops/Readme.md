@@ -18,10 +18,10 @@ Ensuite pas mal de troubleshooting en me connectant au container passerelle et e
 Et ensuite j'ai re-regardé le docker-compose et vu que le port mappé était pas le bon (le 80 sur le 5000 alors que la passerelle n'expose que le port 80).
 - [x] Réorganiser le projet comme bon vous semble, profitez-en pour corriger les incohérences.
 --> J'ai préféré réogarniser le projet plutôt par brique fonctionnelle. 1 dossier par container, avec ses sources, ses configs. Et enfin un dossier commun pour la partie data qui est monté par les deux containers apis (pour éviter de dupliquer et maintenir deux fois la donnée).
-- [ ] Intégrer un système de cache au projet (Redis par exemple)
+- [x] Intégrer un système de cache au projet (Redis par exemple)
       Note: Quand on cherche à récupérer un livre, on doit vérifier l'existence dans le cache avant de regarder dans le fichier books.json
       Note2: Le fichier books.json fait office de "base de données" pour simplifier le test technique, vous n'êtes pas obligé d'y toucher.
---> Je vois globalement ce que l'on doit faire, j'ai du mal cependant à "jouer" au lego pour mettre toutes les briques techniques.
+--> avec flask, redis et flask_caching on est bon. Mon erreur a été que le decorator pour la partie cache étant au dessus du décorator de la déclaration de ma route (merci https://stackoverflow.com/questions/739654/how-do-i-make-function-decorators-and-chain-them-together/1594484#1594484). Je n'ai pas vu de grande différence de réponse, parce que je ne travaille qu'en local avec un petit fichier. Par contre en me connectant à mon redis et en checkant les KEYS, je peux voir que mes données sont présentes (si je les ai requêtées avant), et une fois le TTL expiré (de 60s), elles sont supprimées du cache.
 - [x] Faites en sorte que la page de statistiques d'HaProxy fonctionne
 --> ici j'ai fait plus simple en bindant le port 9001 sur lequel "écoute" la page /stats. J'ai tenté de modifier le port de binding dans la conf HAProxy, mais pour des raisons que j'ignore, cela avait tendance à faire bugger l'application.
 - [x] L'api Denver (service api_denver dans le docker-compose.yaml) ne répond pas à 100% du temps, au bout d'un moment elle arrête de répondre, pourtant elle ne fait pas grand chose: elle affiche juste un livre aléatoire. Pourquoi bug t-elle ? trouvez la solution
